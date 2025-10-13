@@ -3,8 +3,10 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    enum GameState {GAMEPLAY,PAUSE,ESCAPE};
-    [SerializeField] GameState state;
+    public enum GameState {GAMEPLAY,PAUSE};
+   [SerializeField] GameState state;
+    public GameState State { get { return state; } }
+
     private bool has_changed_state = false;
 
 
@@ -38,6 +40,9 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
+
+
+
 
     private void LateUpdate()
     {
