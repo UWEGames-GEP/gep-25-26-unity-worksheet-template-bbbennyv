@@ -59,3 +59,9 @@ public class GameManager : MonoBehaviour
         }
     }
 }
+
+
+public class Gameplay
+{
+
+}
