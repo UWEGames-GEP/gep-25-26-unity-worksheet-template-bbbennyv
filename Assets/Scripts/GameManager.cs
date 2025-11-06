@@ -1,27 +1,28 @@
+using Assets.Scripts;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public enum GameState {GAMEPLAY,PAUSE};
-   [SerializeField] GameState state;
-    public GameState State { get { return state; } }
 
     private bool has_changed_state = false;
-
-
+    [SerializeField] State state;
+    public State GamePlay, Pause;
 
     void Start()
     {
-        state = GameState.GAMEPLAY;
+        GamePlay = new("Gameplay", 1.0f);
+        Pause = new("Pause", 0.0f);
+        state = GamePlay;
     }
 
     // Update is called once per frame
     void Update()
     {
-  
 
-        switch (state)
+
+        /*switch (state)
         {
             case GameState.GAMEPLAY:
                 if (Input.GetKeyDown(KeyCode.Escape))
@@ -38,30 +39,48 @@ public class GameManager : MonoBehaviour
 
                 }
                 break;
+        }*/
+        switch (state.getCurrentState())
+        {
+            case "Gameplay":
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    has_changed_state = true;
+                    state = Pause;
+                }
+                break;
+            case "Pause":
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    has_changed_state = true;
+                    state = GamePlay;
+                }
+                break;
+
         }
+
+
+
+
+
+
     }
 
-
+    
 
 
     private void LateUpdate()
     {
         if(has_changed_state) {has_changed_state=false;
-            if (state == GameState.GAMEPLAY)
+            if (state == GamePlay)
             {
-                Time.timeScale = 1.0f;
+                Time.timeScale = state.ts;
             }
-            else if(state == GameState.PAUSE)
+            else if(state == Pause)
             {
-                Time.timeScale = 0.0f;
+                Time.timeScale = state.ts;
 
             }
         }
     }
-}
-
-
-public class Gameplay
-{
-
 }

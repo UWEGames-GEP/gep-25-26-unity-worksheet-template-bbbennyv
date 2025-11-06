@@ -5,7 +5,7 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     [SerializeField] List<string> items = new List<string>();
-    public GameManager gameManager;
+    private GameManager gameManager;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -17,7 +17,7 @@ public class Inventory : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(gameManager.State == GameManager.GameState.GAMEPLAY)
+        /*if(gameManager.State == GameManager.GameState.GAMEPLAY)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
@@ -27,9 +27,8 @@ public class Inventory : MonoBehaviour
             {
                 RemoveItemToInventory("Bo-nana");
             }
-        }
-
-
+        }*/
+        
     }
 
     public void AddItemToInventory(string itemName)
@@ -53,6 +52,12 @@ public class Inventory : MonoBehaviour
         }
     }
 
-  
+    public void linearSort(List<string> item)
+    {
+        for (int i = 0; i < items.Count; i++) 
+        {
+            
+        }
+    }
 
 }
