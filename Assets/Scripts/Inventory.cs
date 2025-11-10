@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,7 +29,7 @@ public class Inventory : MonoBehaviour
                 RemoveItemToInventory("Bo-nana");
             }
         }*/
-        
+        InsertionSort(items);
     }
 
     public void AddItemToInventory(string itemName)
@@ -52,12 +53,25 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void linearSort(List<string> item)
+    public void InsertionSort(List<string> item)
     {
-        for (int i = 0; i < items.Count; i++) 
+       
+        int n = item.Count;
+        for (int i = 1; i < n; i++)
         {
-            
+            string key = item[i];
+            int j = i - 1;
+
+            while (j >= 0 && string.Compare(item[j],key,StringComparison.OrdinalIgnoreCase)>0)
+            {
+                item[j+1] = item[j];
+                j--;
+            }
+            item[j + 1] = key;
         }
+
+
+
     }
 
 }
