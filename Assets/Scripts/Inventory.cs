@@ -1,18 +1,21 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    [SerializeField] List<string> items = new List<string>();
+    [SerializeField]public List<itemManager> items = new List<itemManager>();
     private GameManager gameManager;
+    Transform worldItemsTransform;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         gameManager = FindAnyObjectByType<GameManager>();
-        
+
+        Transform worldItemsTransform = GameObject.Find("ItemManager").transform;
     }
 
     // Update is called once per frame
@@ -32,15 +35,61 @@ public class Inventory : MonoBehaviour
         InsertionSort(items);
     }
 
-    public void AddItemToInventory(string itemName)
+    public void AddItemToInventory(itemManager item)
     {
-        items.Add(itemName);
+        items.Add(item);
     }
 
-    public void RemoveItemToInventory(string itemName)
+    public void RemoveItemToInventory(itemManager item)
     {
-        items.Remove(itemName);
+
+        items.Remove(item);
     }
+
+
+
+    public void RemoveItemFromInventory(itemManager item)
+    {
+        
+            
+            Vector3 currentpos = transform.position;
+            Vector3 forward = transform.forward;
+
+            Vector3 newpos = currentpos + forward;
+            newpos += new Vector3(0, 1, 0);
+
+            Quaternion currentrot = transform.rotation;
+            Quaternion newrot = currentrot * Quaternion.Euler(0, 0, 100);
+
+            GameObject newitem = Instantiate(item.gameObject,newpos,newrot,worldItemsTransform);
+            newitem.SetActive(true);
+
+            items.Remove(item);
+            Destroy(item.gameObject);
+        
+        
+    }
+
+
+    public void RemoveItemFromInventory()
+    {
+        if(gameManager.getState() == "Gameplay" && items.Count > 0)
+        {
+            itemManager item = items[0];
+
+            RemoveItemFromInventory(item);
+        }
+    }
+
+
+    public void RemoveItemFromInventory(int i)
+    {
+        if (i < items.Count) 
+        {
+            RemoveItemFromInventory(items[i]);
+        }
+    }
+
 
 
     public void OnControllerColliderHit(ControllerColliderHit hit)
@@ -48,26 +97,26 @@ public class Inventory : MonoBehaviour
         itemManager collision = hit.gameObject.GetComponent<itemManager>();
         if (collision != null)
         {
-            items.Add(collision.gameObject.name);
-            Destroy(collision.gameObject);
+            items.Add(collision);
+            collision.gameObject.SetActive(false);
         }
     }
 
-    public void InsertionSort(List<string> item)
+    public void InsertionSort(List<itemManager> item)
     {
        
         int n = item.Count;
         for (int i = 1; i < n; i++)
         {
-            string key = item[i];
+            string key = item[i].name;
             int j = i - 1;
 
-            while (j >= 0 && string.Compare(item[j],key,StringComparison.OrdinalIgnoreCase)>0)
+            while (j >= 0 && string.Compare(item[j].name,key,StringComparison.OrdinalIgnoreCase)>0)
             {
-                item[j+1] = item[j];
+                item[j+1].name = item[j].name;
                 j--;
             }
-            item[j + 1] = key;
+            item[j + 1].name = key;
         }
 
 
