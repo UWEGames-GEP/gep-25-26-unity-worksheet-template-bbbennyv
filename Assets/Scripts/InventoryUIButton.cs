@@ -5,7 +5,7 @@ public class InventoryUIButton : MonoBehaviour
 {
     public TMP_Text text;
 
-    public void SetButton(itemManager item)
+    public void SetButton(Item item)
     {
         text.text = item.name;
     }

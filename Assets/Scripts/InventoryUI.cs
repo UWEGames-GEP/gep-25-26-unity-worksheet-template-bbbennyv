@@ -28,7 +28,7 @@ public class InventoryUI : MonoBehaviour
         {
 
             InventoryUIButton uibutton = inventoryUIBtns[i].GetComponent<InventoryUIButton>();
-            itemManager item = inventory.items[i];
+            Item item = inventory.items[i];
 
             uibutton.gameObject.SetActive(true);
             uibutton.SetButton(item);

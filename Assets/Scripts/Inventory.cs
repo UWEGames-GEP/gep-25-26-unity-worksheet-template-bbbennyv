@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    [SerializeField]public List<itemManager> items = new List<itemManager>();
+    [SerializeField]public List<Item> items = new List<Item>();
     private GameManager gameManager;
     Transform worldItemsTransform;
 
@@ -32,23 +32,25 @@ public class Inventory : MonoBehaviour
                 RemoveItemToInventory("Bo-nana");
             }
         }*/
-        InsertionSort(items);
     }
 
-    public void AddItemToInventory(itemManager item)
+    public void AddItemToInventory(Item item)
     {
         items.Add(item);
+        InsertionSort(items);
+
     }
 
-    public void RemoveItemToInventory(itemManager item)
+    public void RemoveItemToInventory(Item item)
     {
 
         items.Remove(item);
+        InsertionSort(items);
     }
 
 
 
-    public void RemoveItemFromInventory(itemManager item)
+    public void RemoveItemFromInventory(Item item)
     {
         
             
@@ -75,7 +77,7 @@ public class Inventory : MonoBehaviour
     {
         if(gameManager.getState() == "Gameplay" && items.Count > 0)
         {
-            itemManager item = items[0];
+            Item item = items[0];
 
             RemoveItemFromInventory(item);
         }
@@ -94,7 +96,7 @@ public class Inventory : MonoBehaviour
 
     public void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        itemManager collision = hit.gameObject.GetComponent<itemManager>();
+        Item collision = hit.gameObject.GetComponent<Item>();
         if (collision != null)
         {
             items.Add(collision);
@@ -102,21 +104,22 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void InsertionSort(List<itemManager> item)
+    public void InsertionSort(List<Item> item)
     {
-       
-        int n = item.Count;
-        for (int i = 1; i < n; i++)
+
+        for (int i = 1; i < items.Count; i++)
         {
-            string key = item[i].name;
+            Item key = items[i];
             int j = i - 1;
 
-            while (j >= 0 && string.Compare(item[j].name,key,StringComparison.OrdinalIgnoreCase)>0)
+            while (j >= 0 &&
+                   string.Compare(items[j].name, key.name, StringComparison.OrdinalIgnoreCase) > 0)
             {
-                item[j+1].name = item[j].name;
+                items[j + 1] = items[j];
                 j--;
             }
-            item[j + 1].name = key;
+
+            items[j + 1] = key;
         }
 
 
