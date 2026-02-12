@@ -2,6 +2,7 @@ using UnityEngine;
 using Assets.Scripts;
 public class PauseMenuUI : MonoBehaviour
 {
+    [Header("Ref")]
     [SerializeField] private GameManager gameManager;
     public void Quit()
     {

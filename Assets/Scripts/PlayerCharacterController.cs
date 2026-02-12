@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerCharacterController : ThirdPersonController
 {
+    [Header("Ref")]
     [SerializeField]GameManager gameManager;
     [SerializeField] Inventory inventory;
 

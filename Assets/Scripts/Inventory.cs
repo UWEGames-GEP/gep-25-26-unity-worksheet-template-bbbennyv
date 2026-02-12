@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    [Header("Ref")]
     [SerializeField]public List<Item> items = new List<Item>();
     private GameManager gameManager;
     Transform worldItemsTransform;

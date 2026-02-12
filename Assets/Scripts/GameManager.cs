@@ -6,26 +6,24 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
 
-    [Header("UI References")]
+    [Header("UI Ref")]
     [SerializeField] private GameObject pauseUI;
     [SerializeField] private GameObject inventoryUI;
 
     private State currentState;
 
-    // Public getters so states can access them safely
     public GameObject PauseUI => pauseUI;
     public GameObject InventoryUI => inventoryUI;
 
-    // State instances
     private GameplayState gameplayState = new GameplayState();
     private PauseState pauseState = new PauseState();
     private InventoryState inventoryState = new InventoryState();
 
-    public State CurrentState => currentState;
 
     public bool IsGameplay => currentState is GameplayState;
-    public bool IsPaused => currentState is PauseState;
-    public bool IsInventory => currentState is InventoryState;
+    //public bool IsPaused => currentState is PauseState;
+    //public bool IsInventory => currentState is InventoryState;
+    //public State CurrentState => currentState;
 
     private void Start()
     {
