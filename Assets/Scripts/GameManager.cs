@@ -5,102 +5,73 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
 
-    private bool has_changed_state = false;
-    [SerializeField] State state;
-    public State GamePlay, Pause,Inventory;
-    [SerializeField]GameObject inventoryUI;
-    [SerializeField]GameObject PauseUI;
-    void Start()
+    [Header("UI References")]
+    [SerializeField] private GameObject pauseUI;
+    [SerializeField] private GameObject inventoryUI;
+
+    private State currentState;
+
+    // Public getters so states can access them safely
+    public GameObject PauseUI => pauseUI;
+    public GameObject InventoryUI => inventoryUI;
+
+    // State instances
+    private GameplayState gameplayState = new GameplayState();
+    private PauseState pauseState = new PauseState();
+    private InventoryState inventoryState = new InventoryState();
+
+    public State CurrentState => currentState;
+
+    public bool IsGameplay => currentState is GameplayState;
+    public bool IsPaused => currentState is PauseState;
+    public bool IsInventory => currentState is InventoryState;
+
+    private void Start()
     {
-        GamePlay = new("Gameplay", 1.0f);
-        Pause = new("Pause", 0.0f);
-        Inventory = new("Inventory", 0.0f);
-        state = GamePlay;
-        inventoryUI.SetActive(false);
-        PauseUI.SetActive(false);
+        SetState(gameplayState);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetState(State newState)
     {
-        
+        if (currentState == newState)
+            return;
 
-
-
-
-    }
-
-
-    public void Pausing()
-    {
-        switch (state.getCurrentState())
-        {
-            case "Gameplay":
-                    has_changed_state = true;
-                    state = Pause;
-                break;
-            case "Pause":
-                    has_changed_state = true;
-                    state = GamePlay;
-                break;
-        }
-    }
-
-    public void Inventorying()
-    {
-        switch (state.getCurrentState())
-        {
-            case "Gameplay":
-                has_changed_state = true;
-                state = Inventory;
-                break;
-            case "Inventory":
-                has_changed_state = true;
-                state = GamePlay;
-                break;
-
-        }
+        currentState = newState;
+        currentState.Enter(this);
     }
 
 
-    public string getState()
+    //if need be these are here
+    /*public void GoToGameplay()
     {
-        return state.getCurrentState();
+        SetState(gameplayState);
     }
 
-    public void setState(State stateSet)
+    public void GoToPause()
     {
-        state = stateSet;
-        has_changed_state = true;
+        SetState(pauseState);
     }
 
-    private void LateUpdate()
+    public void GoToInventory()
     {
-        if(has_changed_state) {has_changed_state=false;
-            if (state == GamePlay)
-            {
-                Time.timeScale = state.ts;
-                inventoryUI.SetActive(false);
-                PauseUI.SetActive(false);
-                Cursor.lockState = CursorLockMode.Locked;
-            }
-            else if(state == Pause)
-            {
-                Time.timeScale = state.ts;
-                inventoryUI.SetActive(false);
-                PauseUI.SetActive(true);
-                Cursor.lockState = CursorLockMode.None;
+        SetState(inventoryState);
+    }*/
 
-            }
-            else if(state == Inventory)
-            {
-                Time.timeScale = state.ts;
-                PauseUI.SetActive(false);
-                inventoryUI.SetActive(true);
-                Cursor.lockState = CursorLockMode.None;
-            }
-        }
+    public void TogglePause()
+    {
+        if (currentState is PauseState)
+            SetState(gameplayState);
+        else if (currentState is GameplayState)
+            SetState(pauseState);
     }
+
+    public void ToggleInventory()
+    {
+        if (currentState is InventoryState)
+            SetState(gameplayState);
+        else if (currentState is GameplayState)
+            SetState(inventoryState);
+
+    } 
 }

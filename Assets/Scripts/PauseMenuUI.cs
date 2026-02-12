@@ -10,6 +10,6 @@ public class PauseMenuUI : MonoBehaviour
 
     public void Play()
     {
-        gameManager.setState(gameManager.GamePlay);
+        gameManager.TogglePause();
     }
 }

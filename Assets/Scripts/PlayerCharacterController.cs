@@ -12,7 +12,7 @@ public class PlayerCharacterController : ThirdPersonController
     {
         if (value.isPressed)
         {
-            gameManager.Pausing();
+            gameManager.TogglePause();
             Debug.Log("PAUSED");
         }
     }
@@ -21,7 +21,7 @@ public class PlayerCharacterController : ThirdPersonController
     {
         if (input.isPressed)
         {
-            gameManager.Inventorying();
+            gameManager.ToggleInventory();
             Debug.Log("Inventory");
         }
     }

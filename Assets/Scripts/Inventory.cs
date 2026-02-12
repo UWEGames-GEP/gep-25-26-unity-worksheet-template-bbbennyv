@@ -33,7 +33,6 @@ public class Inventory : MonoBehaviour
                 RemoveItemToInventory("Bo-nana");
             }
         }*/
-        InsertionSort(items);
 
     }
 
@@ -44,6 +43,7 @@ public class Inventory : MonoBehaviour
         if(items.Contains(item)) return;
 
         items.Add(item);
+         InsertionSort(items);
     }
 
     public void RemoveItemToInventory(Item item)
@@ -78,7 +78,7 @@ public class Inventory : MonoBehaviour
 
     public void RemoveItemFromInventory()
     {
-        if(gameManager.getState() == "Gameplay" && items.Count > 0)
+        if(gameManager.IsGameplay && items.Count > 0)
         {
             Item item = items[0];
 
@@ -107,7 +107,7 @@ public class Inventory : MonoBehaviour
         Item collision = hit.gameObject.GetComponent<Item>();
         if (collision != null && !items.Contains(collision))
         {
-            items.Add(collision);
+            AddItemToInventory(collision);
             collision.gameObject.SetActive(false);
 
         }

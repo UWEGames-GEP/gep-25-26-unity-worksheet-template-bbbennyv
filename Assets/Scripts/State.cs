@@ -3,29 +3,66 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 namespace Assets.Scripts
 {
-    public class State
+    public abstract class State
     {
-        public string state_name;
-        public float ts;
-     
-       public State(string State,float timescale) 
-       {
-              state_name = State;
-              ts = timescale;
-       }
-        
-        
-        public string getCurrentState()
-        {
-            return state_name;
-        }
+        public abstract float ts { get; }
 
-        public void setCurrentState(string State)
+        public virtual void Enter(GameManager manager)
         {
-            state_name = State;
+            Time.timeScale = ts;
+        }
+       
+    }
+
+    public class GameplayState : State
+    {
+        public override float ts => 1f;
+
+        public override void Enter(GameManager manager)
+        {
+            base.Enter(manager);
+
+            manager.PauseUI.SetActive(false);
+            manager.InventoryUI.SetActive(false);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
     }
+
+    public class PauseState : State
+    {
+        public override float ts => 0f;
+
+        public override void Enter(GameManager manager)
+        {
+            base.Enter(manager);
+
+            manager.PauseUI.SetActive(true);
+            manager.InventoryUI.SetActive(false);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+    }
+
+    public class InventoryState : State
+    {
+        public override float ts => 0f;
+
+        public override void Enter(GameManager manager)
+        {
+            base.Enter(manager);
+
+            manager.PauseUI.SetActive(false);
+            manager.InventoryUI.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+    }
+
+
 }
