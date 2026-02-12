@@ -15,7 +15,8 @@ public class Inventory : MonoBehaviour
     {
         gameManager = FindAnyObjectByType<GameManager>();
 
-        Transform worldItemsTransform = GameObject.Find("ItemManager").transform;
+        worldItemsTransform = GameObject.Find("ItemManager").transform;
+
     }
 
     // Update is called once per frame
@@ -32,28 +33,30 @@ public class Inventory : MonoBehaviour
                 RemoveItemToInventory("Bo-nana");
             }
         }*/
+        InsertionSort(items);
+
     }
 
     public void AddItemToInventory(Item item)
     {
-        items.Add(item);
-        InsertionSort(items);
+        if(item == null) return;
 
+        if(items.Contains(item)) return;
+
+        items.Add(item);
     }
 
     public void RemoveItemToInventory(Item item)
     {
 
         items.Remove(item);
-        InsertionSort(items);
+
     }
 
 
 
     public void RemoveItemFromInventory(Item item)
     {
-        
-            
             Vector3 currentpos = transform.position;
             Vector3 forward = transform.forward;
 
@@ -64,12 +67,12 @@ public class Inventory : MonoBehaviour
             Quaternion newrot = currentrot * Quaternion.Euler(0, 0, 100);
 
             GameObject newitem = Instantiate(item.gameObject,newpos,newrot,worldItemsTransform);
+            newitem.name = item.name;
             newitem.SetActive(true);
 
             items.Remove(item);
             Destroy(item.gameObject);
-        
-        
+
     }
 
 
@@ -80,16 +83,21 @@ public class Inventory : MonoBehaviour
             Item item = items[0];
 
             RemoveItemFromInventory(item);
+
         }
+
     }
 
 
     public void RemoveItemFromInventory(int i)
     {
-        if (i < items.Count) 
+        if (i < items.Count)
         {
+            Debug.Log($"the index of the remove is {i} in items");
             RemoveItemFromInventory(items[i]);
+
         }
+
     }
 
 
@@ -97,13 +105,14 @@ public class Inventory : MonoBehaviour
     public void OnControllerColliderHit(ControllerColliderHit hit)
     {
         Item collision = hit.gameObject.GetComponent<Item>();
-        if (collision != null)
+        if (collision != null && !items.Contains(collision))
         {
             items.Add(collision);
             collision.gameObject.SetActive(false);
-        }
-    }
 
+        }
+
+    }
     public void InsertionSort(List<Item> item)
     {
 
@@ -117,12 +126,12 @@ public class Inventory : MonoBehaviour
             {
                 items[j + 1] = items[j];
                 j--;
+
             }
 
             items[j + 1] = key;
+
         }
-
-
 
     }
 

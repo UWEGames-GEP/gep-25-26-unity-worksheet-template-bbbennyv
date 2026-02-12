@@ -41,6 +41,8 @@ public class InventoryUI : MonoBehaviour
 
     public void OnInventoryUIButton(int i)
     {
+            Debug.Log($"the index of the remove is {i} items");
+
         inventory.RemoveItemFromInventory(i);
         refreshInventory();
     }

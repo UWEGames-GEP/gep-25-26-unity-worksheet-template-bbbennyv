@@ -17,6 +17,15 @@ public class PlayerCharacterController : ThirdPersonController
         }
     }
 
+    private void OnInventory(InputValue input)
+    {
+        if (input.isPressed)
+        {
+            gameManager.Inventorying();
+            Debug.Log("Inventory");
+        }
+    }
+
 
     private void OnRemoveItem(InputValue value)
     {

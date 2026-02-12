@@ -9,14 +9,17 @@ public class GameManager : MonoBehaviour
 
     private bool has_changed_state = false;
     [SerializeField] State state;
-    public State GamePlay, Pause;
+    public State GamePlay, Pause,Inventory;
     [SerializeField]GameObject inventoryUI;
+    [SerializeField]GameObject PauseUI;
     void Start()
     {
         GamePlay = new("Gameplay", 1.0f);
         Pause = new("Pause", 0.0f);
+        Inventory = new("Inventory", 0.0f);
         state = GamePlay;
         inventoryUI.SetActive(false);
+        PauseUI.SetActive(false);
     }
 
     // Update is called once per frame
@@ -42,15 +45,36 @@ public class GameManager : MonoBehaviour
                     has_changed_state = true;
                     state = GamePlay;
                 break;
+        }
+    }
+
+    public void Inventorying()
+    {
+        switch (state.getCurrentState())
+        {
+            case "Gameplay":
+                has_changed_state = true;
+                state = Inventory;
+                break;
+            case "Inventory":
+                has_changed_state = true;
+                state = GamePlay;
+                break;
 
         }
     }
+
 
     public string getState()
     {
         return state.getCurrentState();
     }
 
+    public void setState(State stateSet)
+    {
+        state = stateSet;
+        has_changed_state = true;
+    }
 
     private void LateUpdate()
     {
@@ -59,14 +83,23 @@ public class GameManager : MonoBehaviour
             {
                 Time.timeScale = state.ts;
                 inventoryUI.SetActive(false);
+                PauseUI.SetActive(false);
                 Cursor.lockState = CursorLockMode.Locked;
             }
             else if(state == Pause)
             {
                 Time.timeScale = state.ts;
-                inventoryUI.SetActive(true);
+                inventoryUI.SetActive(false);
+                PauseUI.SetActive(true);
                 Cursor.lockState = CursorLockMode.None;
 
+            }
+            else if(state == Inventory)
+            {
+                Time.timeScale = state.ts;
+                PauseUI.SetActive(false);
+                inventoryUI.SetActive(true);
+                Cursor.lockState = CursorLockMode.None;
             }
         }
     }
