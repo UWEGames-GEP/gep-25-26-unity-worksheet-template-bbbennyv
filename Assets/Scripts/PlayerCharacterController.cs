@@ -8,6 +8,7 @@ public class PlayerCharacterController : ThirdPersonController
     [Header("Ref")]
     [SerializeField]GameManager gameManager;
     [SerializeField] Inventory inventory;
+    [SerializeField] Chest chest;
 
     private void OnPause(InputValue value)
     {
@@ -38,5 +39,12 @@ public class PlayerCharacterController : ThirdPersonController
         }
 
     }
+
+    private void OnOpenChest(InputValue value)
+    {
+        chest.OpenChest();
+    }
+
+
 
 }

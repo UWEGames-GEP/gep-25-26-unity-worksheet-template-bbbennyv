@@ -101,7 +101,14 @@ public class Inventory : MonoBehaviour
 
     }
 
+    public void TransferItemTo(Item item, Inventory targetInventory)
+    {
+        if (item == null) return;
+        if (!items.Contains(item)) return;
 
+        items.Remove(item);
+        targetInventory.AddItemToInventory(item);
+    }
 
     public void OnControllerColliderHit(ControllerColliderHit hit)
     {
