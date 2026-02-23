@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
 
         currentState = newState;
         currentState.Enter(this);
+        Debug.Log($"current state -{currentState.ToString()}");
     }
 
 

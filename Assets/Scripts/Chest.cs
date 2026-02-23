@@ -55,7 +55,10 @@ public class Chest : MonoBehaviour
 
     public void ToggleChest()
     {
-        if (!playerInRange) return;
+        if (!playerInRange)
+            return;
+        if (gameManager.IsInventory)
+            return;
         isOpen = !isOpen;
         if (isOpen)
         {
