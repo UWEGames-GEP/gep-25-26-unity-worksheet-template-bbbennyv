@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,6 +6,8 @@ public class InventoryUI : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public Inventory inventory;
+    public Chest activeChest;
+    public bool isPlayerInventory;
     public List<GameObject> inventoryUIBtns = new List<GameObject>();
 
     private void OnEnable()
@@ -13,9 +16,8 @@ public class InventoryUI : MonoBehaviour
     }
 
 
-    void refreshInventory()
+    public void refreshInventory()
     {
-        Debug.Log("Refresh Inventory UI");
 
         foreach (GameObject ui_btn in inventoryUIBtns)
         {
@@ -41,10 +43,26 @@ public class InventoryUI : MonoBehaviour
 
     public void OnInventoryUIButton(int i)
     {
-            Debug.Log($"the index of the remove is {i} items");
 
-        inventory.RemoveItemFromInventory(i);
-        refreshInventory();
+
+        if (activeChest != null && activeChest.isOpen)
+        {
+
+            if (isPlayerInventory)
+                activeChest.MovePlayerItemToChest(i);
+            else
+                activeChest.MoveChestItemToPlayer(i);
+
+            refreshInventory();
+            return;
+        }
+
+
+        if (isPlayerInventory)
+        {
+            inventory.RemoveItemFromInventory(i);
+            refreshInventory();
+        }
     }
 
 }

@@ -15,7 +15,6 @@ public class PlayerCharacterController : ThirdPersonController
         if (value.isPressed)
         {
             gameManager.TogglePause();
-            Debug.Log("PAUSED");
         }
     }
 
@@ -24,25 +23,23 @@ public class PlayerCharacterController : ThirdPersonController
         if (input.isPressed)
         {
             gameManager.ToggleInventory();
-            Debug.Log("Inventory");
         }
     }
 
 
     private void OnRemoveItem(InputValue value)
     {
+        if (!value.isPressed) return;
 
-        if (value.isPressed) 
-        {
-            Debug.Log("Remove Item");
-            inventory.RemoveItemFromInventory();
-        }
+        if (!gameManager.IsGameplay)
+            return;
 
+        inventory.RemoveItemFromInventory();
     }
 
     private void OnOpenChest(InputValue value)
     {
-        chest.OpenChest();
+        chest.ToggleChest();
     }
 
 

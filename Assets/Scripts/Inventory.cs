@@ -79,13 +79,12 @@ public class Inventory : MonoBehaviour
 
     public void RemoveItemFromInventory()
     {
-        if(gameManager.IsGameplay && items.Count > 0)
-        {
-            Item item = items[0];
+        if(items.Count == 0)
+            return;
+            
+        Item item = items[0];
+        RemoveItemFromInventory(item);
 
-            RemoveItemFromInventory(item);
-
-        }
 
     }
 
@@ -94,7 +93,6 @@ public class Inventory : MonoBehaviour
     {
         if (i < items.Count)
         {
-            Debug.Log($"the index of the remove is {i} in items");
             RemoveItemFromInventory(items[i]);
 
         }

@@ -28,6 +28,7 @@ namespace Assets.Scripts
             base.Enter(manager);
 
             manager.PauseUI.SetActive(false);
+            manager.ChestUI.SetActive(false);
             manager.InventoryUI.SetActive(false);
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -43,6 +44,7 @@ namespace Assets.Scripts
             base.Enter(manager);
 
             manager.PauseUI.SetActive(true);
+            manager.ChestUI.SetActive(false);
             manager.InventoryUI.SetActive(false);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
@@ -58,11 +60,27 @@ namespace Assets.Scripts
             base.Enter(manager);
 
             manager.PauseUI.SetActive(false);
+            manager.ChestUI.SetActive(false);
             manager.InventoryUI.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
     }
 
+    public class ChestState : State
+    {
+        public override float ts => 0f;
+
+        public override void Enter(GameManager manager)
+        {
+            base.Enter(manager);
+
+            manager.PauseUI.SetActive(false);
+            manager.InventoryUI.SetActive(true);
+            manager.ChestUI.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+    }
 
 }

@@ -9,20 +9,25 @@ public class GameManager : MonoBehaviour
     [Header("UI Ref")]
     [SerializeField] private GameObject pauseUI;
     [SerializeField] private GameObject inventoryUI;
+    [SerializeField] private GameObject chestUI;
 
     private State currentState;
 
     public GameObject PauseUI => pauseUI;
     public GameObject InventoryUI => inventoryUI;
+    public GameObject ChestUI => chestUI;
 
     private GameplayState gameplayState = new GameplayState();
     private PauseState pauseState = new PauseState();
     private InventoryState inventoryState = new InventoryState();
+    private ChestState chestState = new ChestState();
 
 
     public bool IsGameplay => currentState is GameplayState;
+
+    public bool IsChest => currentState is ChestState;
     //public bool IsPaused => currentState is PauseState;
-    //public bool IsInventory => currentState is InventoryState;
+    public bool IsInventory => currentState is InventoryState;
     //public State CurrentState => currentState;
 
     private void Start()
@@ -71,5 +76,14 @@ public class GameManager : MonoBehaviour
         else if (currentState is GameplayState)
             SetState(inventoryState);
 
-    } 
+    }
+
+    public void ToggleChest()
+    {
+        if (currentState is ChestState)
+            SetState(gameplayState);
+        else if (currentState is GameplayState)
+            SetState(chestState);
+    }
+
 }
